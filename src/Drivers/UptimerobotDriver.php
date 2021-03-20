@@ -14,18 +14,30 @@
     {
         const API_TYPE = 'uptimerobot';
 
-        const API_HOST = 'https://api.uptimerobot.com';
+        const API_HOST = 'https://api.uptimerobot.com/v2';
 
         private function __getEndpoint($endpoint, array $data = [])
         {
-            $params = http_build_query(array_merge($this->__config, $data, ['apiKey' => $this->__apiKey]));
-
-            return '/' . $endpoint . '?' . $params;
+            return '/' . $endpoint;
         }
 
         public function getAccountDetails()
         {
             return $this->__request($this->__getEndpoint(__FUNCTION__));
+        }
+
+        public function getMonitor($monitors, $params = [])
+        {
+            $_params = [
+                'monitors'           => $monitors,
+                'responseTimes'      => 1,
+                'responseTimesLimit' => 10,
+                'logs'               => 1,
+                'logsLimit'          => 10,
+                'showTimezone'       => 1,
+            ];
+
+            return $this->__request($this->__getEndpoint(__FUNCTION__), array_merge($params, $_params));
         }
 
         public function getMonitors($params = [])
@@ -38,7 +50,7 @@
                 'showTimezone'       => 1,
             ];
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, array_merge($params, $_params)));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), array_merge($params, $_params));
         }
 
         public function newMonitor($monitorFriendlyName, $monitorURL, $monitorType, $additionalParams = [])
@@ -49,7 +61,7 @@
                 'monitorType'         => $monitorType,
             ], $additionalParams);
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, $params));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), $params);
         }
 
         public function editMonitor($monitorID, $additionalParams = [])
@@ -58,7 +70,7 @@
                 'monitorID' => $monitorID,
             ], $additionalParams);
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, $params));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), $params);
         }
 
         public function deleteMonitor($monitorID)
@@ -67,7 +79,7 @@
                 'monitorID' => $monitorID,
             ];
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, $params));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), $params);
         }
 
         public function resetMonitor($monitorID)
@@ -76,7 +88,7 @@
                 'monitorID' => $monitorID,
             ];
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, $params));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), $params);
         }
 
         public function getAlertContacts($monitorID=null, $additionalParams = [])
@@ -99,7 +111,7 @@
                 'alertContactValue' => $alertContactValue,
             ], $additionalParams);
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, $params));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), $params);
         }
 
         public function deleteAlertContact($alertContactID, $additionalParams = [])
@@ -108,6 +120,6 @@
                 'alertContactID' => $alertContactID,
             ], $additionalParams);
 
-            return $this->__request($this->__getEndpoint(__FUNCTION__, $params));
+            return $this->__request($this->__getEndpoint(__FUNCTION__), $params);
         }
     }

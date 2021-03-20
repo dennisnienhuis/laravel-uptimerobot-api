@@ -31,21 +31,19 @@
             $this->__apiKey = $apiKey;
         }
 
-        protected function __request($endpoint, $method = 'GET', $data = [])
+        protected function __request($endpoint, $data = [])
         {
             $client = new Client();
 
             $options = [];
-            $method = strtolower($method);
 
-            if ($method == 'post') {
-                $options['body'] = $data;
-            }
+            $options['form_params'] = array_merge($this->__config, $data);
+
 
             /** @var RequestInterface $response */
-            $response = $client->request($method, static::API_HOST . $endpoint, $options);
+            $response = $client->request('POST', static::API_HOST . $endpoint, $options);
 
-            $body = json_decode($response->getBody(), true);
+            $body = json_decode($response->getBody()->getContents(), true);
 
             if (is_array($body)) {
                 return $body;
