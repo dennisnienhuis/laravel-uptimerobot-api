@@ -14,8 +14,8 @@
   ],
   "type": "library",
   "require": {
-    "guzzlehttp/guzzle": "6.*",
-    "php": ">= 5.4"
+    "guzzlehttp/guzzle": "7.*",
+    "php": ">= 7.4"
   },
   "require-dev": {
     "illuminate/support": "~5.0|~5.1"
