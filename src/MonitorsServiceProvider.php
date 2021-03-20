@@ -31,8 +31,8 @@
          */
         public function register()
         {
-            $this->app->singleton('uptimerobot', function ($app, $params) {
-                return (new Monitors())->createDriver('uptimerobot', $params);
+            $this->app->singleton('uptimerobot', function ($app) {
+                return (new Monitors())->createDriver('uptimerobot');
             });
         }
 

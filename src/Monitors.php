@@ -20,12 +20,14 @@
          *
          * @return mixed|BaseDriver
          */
-        public function createDriver($driver, $params)
+        public function createDriver($driver)
         {
             try {
                 $driverName = '\Akaramires\Monitors\Drivers\\' . ucfirst(strtolower($driver)) . "Driver";
-
-                return new $driverName($params['api_key']);
+				
+				$api_key = config('monitors.' . strtolower($driver) . '.api_key');
+				
+                return new $driverName($api_key);
             } catch (Exception $e) {
                 throw new \InvalidArgumentException('Invalid Monitor driver');
             }
